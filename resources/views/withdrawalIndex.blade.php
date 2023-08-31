@@ -12,24 +12,20 @@
   </head>
 <body style="padding: 2%; border: 2px solid black; box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); margin: 4%;">
     @include('layouts.nav')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 offset-md-4">
-                <table class="table" style="text-align: center">
-                    <thead>
-                        <tr>
-                        <th>current balance.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td scope="row">{{ $currentBalance }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-12">
-            <h2>All Transactions</h2>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+                <form method="POST" action="{{ route('withdrawal.store') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Withdrawal amount</label>
+                        <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Withdraw</button>
+                </form>
+           </div>
+           <div class="col-md-12"  style="margin-top : 2%">
+            <h2>All Withdrawal Transactions</h2>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -39,9 +35,9 @@
                             <th>Date</th>
                         </tr>
                     </thead>
-                     @if (count($allTransactions) > 0)
+                    @if (count($withdrawalTransactions) > 0)
                     <tbody>
-                        @foreach ($allTransactions as $transaction)
+                        @foreach ($withdrawalTransactions as $transaction)
                             <tr>
                                 <td>{{ ucfirst($transaction->transaction_type) }}</td>
                                 <td>{{ $transaction->amount }}</td>
@@ -55,11 +51,10 @@
                         <td colspan="4" style="text-align: center">No Data Found</td>
                     </tbody>
                     @endif
-                </table>
-            </div>
-        </div>
-    </div>
 
+                </table>
+           </div>
+    </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

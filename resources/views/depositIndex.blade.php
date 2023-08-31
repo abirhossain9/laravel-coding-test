@@ -12,24 +12,20 @@
   </head>
 <body style="padding: 2%; border: 2px solid black; box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); margin: 4%;">
     @include('layouts.nav')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 offset-md-4">
-                <table class="table" style="text-align: center">
-                    <thead>
-                        <tr>
-                        <th>current balance.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td scope="row">{{ $currentBalance }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-12">
-            <h2>All Transactions</h2>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+                <form method="POST" action="{{ route('deposit.store') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">DepositAmount</label>
+                        <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Deposit</button>
+                </form>
+           </div>
+           <div class="col-md-12"  style="margin-top : 2%">
+            <h2>All Deposit Transactions</h2>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -39,9 +35,9 @@
                             <th>Date</th>
                         </tr>
                     </thead>
-                     @if (count($allTransactions) > 0)
+                    @if (count($depositTransactions) > 0)
                     <tbody>
-                        @foreach ($allTransactions as $transaction)
+                        @foreach ($depositTransactions as $transaction)
                             <tr>
                                 <td>{{ ucfirst($transaction->transaction_type) }}</td>
                                 <td>{{ $transaction->amount }}</td>
@@ -56,10 +52,8 @@
                     </tbody>
                     @endif
                 </table>
-            </div>
-        </div>
+           </div>
     </div>
-
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
